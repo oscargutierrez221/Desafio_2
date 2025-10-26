@@ -1,0 +1,31 @@
+---- Datos de la cancion ---- 
+
+Autor: Bob Dylan 
+
+Genero: Folk Rocvk
+
+ID: 020202020 
+
+Duración: 6:13 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Tom Wilson 
+
+Compositor: Bob Dylan 
+
+Instrumentos: 
+
+- Bob Dylan (Voz, Guitarra, Armónica) 
+
+- Mike Bloomfield (Guitarra eléctrica)
+
+- Al Kooper (Órgano)
+
+- Paul Griffin (Piano)
+
+- Bobby Gregg (Batería)

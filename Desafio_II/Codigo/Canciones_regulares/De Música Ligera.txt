@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Soda Stereo 
+
+Genero: Rock Alternativo / Pop Rock
+
+ID: 090012345 
+
+Duración: 3:32 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Soda Stereo, Gustavo Cerati 
+
+Compositor: Gustavo Cerati, Zeta Bosio, Charly Alberti 
+
+Instrumentos: 
+
+- Gustavo Cerati (Voz, Guitarra)
+
+- Zeta Bosio (Bajo, Coros)
+
+- Charly Alberti (Batería, Percusión)

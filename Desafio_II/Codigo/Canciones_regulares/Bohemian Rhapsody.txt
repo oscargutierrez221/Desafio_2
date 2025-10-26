@@ -1,0 +1,25 @@
+---- Datos de la cancion ---- 
+
+Autor: Queen 
+
+Genero: Rock Progresivo / Opera Rock
+
+ID: 059411756 
+
+Duración: 5:55 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Roy Thomas Baker, Queen 
+
+Compositor: Freddie Mercury 
+
+Instrumentos: 
+- Freddie Mercury (Piano, Voz líder) 
+- Brian May (Guitarras, Coros)
+- John Deacon (Bajo)
+- Roger Taylor (Batería, Percusión, Coros)

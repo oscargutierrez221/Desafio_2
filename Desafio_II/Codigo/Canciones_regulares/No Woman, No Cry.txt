@@ -1,0 +1,31 @@
+---- Datos de la cancion ---- 
+
+Autor: Bob Marley & The Wailers 
+
+Genero: Reggae
+
+ID: 010101010 
+
+Duración: 7:08 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Bob Marley & The Wailers 
+
+Compositor: Vincent Ford (acreditado, pero popularmente atribuido a Bob Marley) 
+
+Instrumentos: 
+
+- Bob Marley (Voz, Guitarra rítmica)
+
+- Aston Barrett (Bajo)
+
+- Carlton Barrett (Batería)
+
+- Earl "Wya" Lindo (Teclados)
+
+- Al Anderson (Guitarra líder)

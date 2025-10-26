@@ -1,0 +1,29 @@
+---- Datos de la cancion ---- 
+
+Autor: Ritchie Valens 
+
+Genero: Rock and Roll / Chicano Rock
+
+ID: 090909090 
+
+Duración: 2:06 
+
+Calidad: 320kbps
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Bob Keane 
+
+Compositor: Dominio Público (Arreglos de Ritchie Valens) 
+
+Instrumentos: 
+
+- Ritchie Valens (Voz, Guitarra)
+
+- Buddy Clark (Bajo)
+
+- Earl Palmer (Batería)
+
+- René Hall (Guitarra rítmica)

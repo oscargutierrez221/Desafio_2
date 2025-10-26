@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Rosana 
+
+Genero: Pop Español / Balada
+
+ID: 060606060 
+
+Duración: 3:37 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: 
+
+Rosana Arbelo 
+
+Compositor: Rosana Arbelo 
+
+Instrumentos: 
+
+- Rosana (Voz, Guitarra acústica)
+
+- Instrumentación de estudio adicional (Bajo, Batería, etc.)

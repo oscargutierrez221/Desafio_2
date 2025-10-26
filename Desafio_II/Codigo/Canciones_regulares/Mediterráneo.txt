@@ -1,0 +1,25 @@
+---- Datos de la cancion ---- 
+
+Autor: Joan Manuel Serrat 
+
+Genero: Cantautor / Folk
+
+ID: 070707070 
+
+Duración: 3:25 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Gian Piero Reverberi 
+
+Compositor: Joan Manuel Serrat 
+
+Instrumentos: 
+
+- Joan Manuel Serrat (Voz)
+
+- Arreglos orquestales y músicos de sesión italianos (Guitarras, Bajo, Batería, Cuerdas)

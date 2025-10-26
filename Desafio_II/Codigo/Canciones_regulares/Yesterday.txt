@@ -1,0 +1,25 @@
+---- Datos de la cancion ---- 
+
+Autor: The Beatles 
+
+Genero: Pop Barroco / Balada Acustica
+
+ID: 045060708 
+w
+Duración: 2:05 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: George Martin 
+
+Compositor: John Lennon y Paul McCartney 
+
+Instrumentos: 
+
+- Paul McCartney (Voz líder, Guitarra acústica)
+
+- George Martin (Arreglo de cuarteto de cuerdas)

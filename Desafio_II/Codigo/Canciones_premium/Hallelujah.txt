@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Leonard Cohen 
+
+Genero: Folk Rock / Baalada
+
+ID: 030077889 
+
+Duración: 4:39 
+
+Calidad: 320kbps
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: John Lissauer 
+
+Compositor: Leonard Cohen 
+
+Instrumentos: 
+
+- Leonard Cohen (Voz, Guitarra)
+
+- John Lissauer (Teclados, Saxofón), 
+
+- Arreglos orquestales.

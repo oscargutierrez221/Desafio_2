@@ -1,0 +1,29 @@
+---- Datos de la cancion ---- 
+
+Autor: John Lennon 
+
+Genero: Soft Rock / Balada
+
+ID: 050505050 
+
+Duración: 3:04 
+
+Calidad: 320kbps
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: John Lennon, Yoko Ono, Phil Spector 
+
+Compositor: John Lennon 
+
+Instrumentos: 
+
+- John Lennon (Voz, Piano)
+
+- Klaus Voormann (Bajo)
+
+- Alan White (Batería)
+
+- The Flux Fiddlers (Cuerdas)

@@ -1,0 +1,31 @@
+---- Datos de la cancion ---- 
+
+Autor: Michael Jackson 
+
+Genero: Pop / Funk Rock
+
+ID: 088810099 
+
+Duración: 4:17 
+
+Calidad: 320kbps
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Quincy Jones, Michael Jackson (Co-productor) 
+
+Compositor: Michael Jackson 
+
+Instrumentos: 
+
+- Michael Jackson (Voz)
+
+- Bruce Swedien (Ingeniería)
+
+- Teclados y Sintetizadores (varios músicos de sesión)
+
+- Guitarras (David Williams, Dann Huff)
+
+- Batería (John Robinson)

@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Earth, Wind & Fire 
+
+Genero: Disco / Funk / R&B
+
+ID: 040404040 
+
+Duración: 3:35 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Maurice White 
+
+Compositor: Maurice White, Al McKay, Allee Willis 
+
+Instrumentos: 
+
+- Maurice White, Philip Bailey, Verdine White (Voces)
+
+- Al McKay (Guitarra)
+
+- Fred White (Batería), metales y cuerdas de sesión.

@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Whitney Houston 
+
+Genero: Soul / Pop /R&B
+
+ID: 030303030 
+
+Duración: 4:31 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: David Foster 
+
+Compositor: Dolly Parton 
+
+Instrumentos: 
+
+- Whitney Houston (Voz) 
+
+- David Foster (Teclados, Arreglos)
+
+- Michael Landau (Guitarra)

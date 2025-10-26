@@ -1,0 +1,25 @@
+---- Datos de la cancion ---- 
+
+Autor: Son By Four 
+
+Genero: Balada Romántica / Pop Latino
+
+ID: 080808080 
+
+Duración: 3:30 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Omar Alfanno 
+
+Compositor: Omar Alfanno 
+
+Instrumentos: 
+
+- Son By Four (Voces)
+
+- Músicos de sesión (Teclados, Percusión, Bajo, Guitarras)

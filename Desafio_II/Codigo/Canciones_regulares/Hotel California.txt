@@ -1,0 +1,29 @@
+---- Datos de la cancion ---- 
+
+Autor: Eagles
+
+Genero: Rock Clasico / Folk Rock
+
+ID: 070098765 
+
+Duración: 6:30 
+
+Calidad: 128kbps 
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Bill Szymczyk 
+
+Compositor: Don Felder (Música), Don Henley & Glenn Frey (Letra) 
+
+Instrumentos: 
+
+- Don Henley (Voz líder, Batería)
+
+- Joe Walsh & Don Felder (Guitarras principales)
+
+- Randy Meisner (Bajo)
+
+- Glenn Frey (Guitarras, Coros)

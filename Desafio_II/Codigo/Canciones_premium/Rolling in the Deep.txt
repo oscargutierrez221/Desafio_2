@@ -1,0 +1,27 @@
+---- Datos de la cancion ---- 
+
+Autor: Adele 
+
+Genero: Soul / Blues Pop
+
+ID: 043210987 
+
+Duración: 3:48 
+
+Calidad: 320kbps
+
+Formato: .ogg
+
+---- Creditos ---- 
+
+Productor: Paul Epworth 
+
+Compositor: Adele Adkins, Paul Epworth 
+
+Instrumentos: 
+
+- Adele (Voz) 
+
+- Paul Epworth (Batería, Bajo, Guitarras, Percusión)
+
+- Ben Thomas (Ingeniería de sonido)
