@@ -1,35 +1,59 @@
 #include <iostream>
 #include <fstream> // Para el manejo de archivos
 #include <string> // Para el manejo de strings
-#include <vector> // Para elmanejo de listas
-#include <random> // Para la selección aleatoria de anuncios
 #include <ctime> // Para medir el tiempo de reproducción
+#include <dirent.h> // Para el manejo de directorios
 #include <windows.h> // Para la función Sleep
-#include <unordered_map> // Para el mapa de favoritos
-#include <unordered_set> // Para el conjunto de canciones favoritas
-#include <iomanip> // Para la precisión en la salida de tiempo
-#include <dirent.h>
+#include <cstdlib> // Para rand y srand
 
 
 using namespace std;
+
+// --- Enum para créditos ---
+enum Creditos {
+    CREDITO_GRATIS = 0,
+    CREDITO_PREMIUM = 1,
+    CREDITO_PREMIUM_PLUS = 2
+};
+
+// --- Estructura para canciones ---
+struct Cancion {
+    string nombre;
+    string artista;
+    int id;
+    Creditos credito;
+    int reproducciones;
+    string ruta_archivo;
+};
 
 // --- Estructura para anuncios ---
 struct Anuncio {
     string prioridad;
     string texto;
     int id;
+    int peso; // Para el sistema de pesos (AAA= 3 veces mas que c, B= 2 veces más que c, C= Menor peso)
+    int memoria_usada; // Para medir la memoria
 };
 
-// --- Variables globales que gestionan gestion anuncios/canciones ---
-vector<Anuncio> anuncios_disponibles;
-unordered_set<int> anuncios_mostrados;
+// --- Variables globales que gestionan anuncios/canciones ---
+Anuncio anuncios_disponibles[1000];
+bool anuncios_mostrados[1000];
+int total_anuncios = 0;
 bool anuncios_cargados = false;
 int contador_canciones = 0;
 
-// --- Mapa de favoritos por usuario premium ---
-unordered_map<string, unordered_set<string>> favoritos_premium;
+// --- Estructura para favoritos ---
+struct FavoritosUsuario {
+    string nickname;
+    string canciones[10000]; // Array para las canciones de favoritos
+    int total_canciones;
+};
 
-// --- Clase usuario ---
+// --- Usamos el Arratya para los usuarios premium ---
+FavoritosUsuario favoritos_premium[1000];
+int total_usuarios_favoritos = 0;
+
+// --- Clase de usuario ---
 class usuario {
 private:
     string nickname;
@@ -84,77 +108,125 @@ string obtenerTipoMembresia(const string& linea) {
     return memb;
 }
 
-// --- Cargar los anuncios desde el archivo ---
+// --- Cargar los anuncios desde el archivo anuncios.txt ---
 void cargar_anuncios() {
     if (anuncios_cargados) return;
     ifstream archivo("anuncios.txt");
     string linea;
     int contador_id = 0;
-    anuncios_disponibles.clear();
-    while (getline(archivo, linea)) {
+    total_anuncios = 0;
+    
+    // Inicializar arrays
+    for (int i = 0; i < 1000; i++) {
+        anuncios_mostrados[i] = false;
+    }
+    
+    while (getline(archivo, linea) && total_anuncios < 1000) {
         if (linea.empty()) continue;
         size_t coma = linea.find(',');
         if (coma == string::npos) continue;
+        
         string prioridad = linea.substr(0, coma);
         string texto = linea.substr(coma + 1);
         if (texto.size() > 500) texto = texto.substr(0, 500);
-        int repeticiones = 1;
-        if (prioridad == "AAA") repeticiones = 3;
-        else if (prioridad == "B") repeticiones = 2;
-        for (int i = 0; i < repeticiones; ++i) {
-            anuncios_disponibles.push_back({prioridad, texto, contador_id++});
+        
+        int peso = 1;
+        if (prioridad == "AAA") peso = 3;
+        else if (prioridad == "B") peso = 2;
+        
+        // Calculamos la memoria usada
+        int memoria_usada = (int)(prioridad.size() + texto.size() + sizeof(int) * 2);
+        
+        // Agregar según el peso
+        for (int i = 0; i < peso && total_anuncios < 1000; i++) {
+            anuncios_disponibles[total_anuncios].prioridad = prioridad;
+            anuncios_disponibles[total_anuncios].texto = texto;
+            anuncios_disponibles[total_anuncios].id = contador_id++;
+            anuncios_disponibles[total_anuncios].peso = peso;
+            anuncios_disponibles[total_anuncios].memoria_usada = memoria_usada;
+            total_anuncios++;
         }
     }
     anuncios_cargados = true;
+    archivo.close();
 }
 
-// Mostrar un anuncio aleatorio, evitando repeticiones
+// -- Mostrar un anuncio aleatorio, evitando repeticiones --
 void anuncios() {
     cargar_anuncios();
-    vector<Anuncio> restantes;
-    for (const auto& anuncio : anuncios_disponibles)
-        if (anuncios_mostrados.count(anuncio.id) == 0)
-            restantes.push_back(anuncio);
-    if (restantes.empty()) {
-        anuncios_mostrados.clear();
-        restantes = anuncios_disponibles;
+    if (total_anuncios == 0) return;
+    
+    // Buscar anuncios no mostrados
+    int indices_disponibles[1000];
+    int disponibles = 0;
+    
+    for (int i = 0; i < total_anuncios; i++) {
+        if (!anuncios_mostrados[i]) {
+            indices_disponibles[disponibles] = i;
+            disponibles++;
+        }
     }
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(0, restantes.size() - 1);
-    int idx = dis(gen);
-    const Anuncio& anuncio_a_mostrar = restantes[idx];
-    anuncios_mostrados.insert(anuncio_a_mostrar.id);
-    cout << "\n--- ANUNCIO (" << anuncio_a_mostrar.prioridad << ") ---\n";
-    cout << anuncio_a_mostrar.texto << "\n";
+    
+    // Si no hay anuncios disponibles, resetear
+    if (disponibles == 0) {
+        for (int i = 0; i < total_anuncios; i++) {
+            anuncios_mostrados[i] = false;
+        }
+        disponibles = total_anuncios;
+        for (int i = 0; i < total_anuncios; i++) {
+            indices_disponibles[i] = i;
+        }
+    }
+    
+    // Selección aleatoria usando time
+    srand((unsigned int)time(NULL));
+    int idx = rand() % disponibles;
+    int anuncio_idx = indices_disponibles[idx];
+    
+    anuncios_mostrados[anuncio_idx] = true;
+    
+    cout << "\n--- ANUNCIO (" << anuncios_disponibles[anuncio_idx].prioridad << ") ---\n";
+    cout << anuncios_disponibles[anuncio_idx].texto << "\n";
+    cout << "Memoria usada: " << anuncios_disponibles[anuncio_idx].memoria_usada << " bytes\n";
     cout << "----------------\n";
 }
 
-// Simular reproducción de canción
+// -- Generador de ID --
+int generar_id_cancion() {
+    srand((unsigned int)time(NULL));
+    return 100000000 + (rand() % 900000000); // La ID de 9 diguitos estara entre 100000000 y 900000000
+}
+
+// -- Reproducción de la canción --
 void reproducir_cancion(const string& nombre_cancion, bool premium = false) {
+    int id_cancion = generar_id_cancion();
     cout << "La cancion: " << nombre_cancion << endl;
+    cout << "ID de la cancion: " << id_cancion << endl;
     cout << "Reproduciendo la cancion: " << nombre_cancion << endl;
+    
     time_t start = time(NULL);
     Sleep(3000);
     time_t end = time(NULL);
     double duration = difftime(end, start);
-    cout << fixed << setprecision(2) << duration << " segundos de reproduccion." << endl;
+    
+    cout << "Duracion: " << duration << " segundos de reproduccion." << endl;
     contador_canciones++;
+    cout << "Total de canciones reproducidas: " << contador_canciones << endl;
+    
     if (!premium && contador_canciones % 2 == 0) {
         anuncios();
     }
 }
 
+// -- Para guardar los favoritos en el archivo de texto --
 void guardar_favoritos_premium() {
     ofstream archivo("favoritos.txt");
     if (archivo.is_open()) {
-        for (const auto& par : favoritos_premium) {
-            archivo << par.first << ",";
-            bool primero = true;
-            for (const auto& cancion : par.second) {
-                if (!primero) archivo << "|";
-                archivo << cancion;
-                primero = false;
+        for (int i = 0; i < total_usuarios_favoritos; i++) {
+            archivo << favoritos_premium[i].nickname << ",";
+            for (int j = 0; j < favoritos_premium[i].total_canciones; j++) {
+                if (j > 0) archivo << "|";
+                archivo << favoritos_premium[i].canciones[j];
             }
             archivo << endl;
         }
@@ -164,31 +236,106 @@ void guardar_favoritos_premium() {
     }
 }
 
-// Cargar favoritos premium al inicio
+// -- Cargar favoritos premium al inicio --
 void cargar_favoritos_premium() {
     ifstream archivo("favoritos.txt");
     if (!archivo.is_open()) return;
-    favoritos_premium.clear();
+    
+    total_usuarios_favoritos = 0;
     string linea;
-    while (getline(archivo, linea)) {
+    
+    while (getline(archivo, linea) && total_usuarios_favoritos < 1000) {
         if (linea.empty()) continue;
         size_t coma = linea.find(',');
         if (coma == string::npos) continue;
+        
         string nick = linea.substr(0, coma);
-        string lista = linea.substr(coma+1);
-        unordered_set<string> canciones;
+        string lista = linea.substr(coma + 1);
+        
+        favoritos_premium[total_usuarios_favoritos].nickname = nick;
+        favoritos_premium[total_usuarios_favoritos].total_canciones = 0;
+        
         size_t pos = 0, last = 0;
-        while ((pos = lista.find('|', last)) != string::npos) {
-            canciones.insert(lista.substr(last, pos - last));
+        while ((pos = lista.find('|', last)) != string::npos && 
+               favoritos_premium[total_usuarios_favoritos].total_canciones < 10000) {
+            favoritos_premium[total_usuarios_favoritos].canciones[favoritos_premium[total_usuarios_favoritos].total_canciones] = 
+                lista.substr(last, pos - last);
+            favoritos_premium[total_usuarios_favoritos].total_canciones++;
             last = pos + 1;
         }
-        if (last < lista.size()) canciones.insert(lista.substr(last));
-        favoritos_premium[nick] = canciones;
+        
+        if (last < lista.size() && favoritos_premium[total_usuarios_favoritos].total_canciones < 10000) {
+            favoritos_premium[total_usuarios_favoritos].canciones[favoritos_premium[total_usuarios_favoritos].total_canciones] = 
+                lista.substr(last);
+            favoritos_premium[total_usuarios_favoritos].total_canciones++;
+        }
+        
+        total_usuarios_favoritos++;
     }
     archivo.close();
 }
 
-// Menú premium para usuarios premium
+// -- Buscar usuario en favoritos --
+int buscar_usuario_favoritos(const string& nickname) {
+    for (int i = 0; i < total_usuarios_favoritos; i++) {
+        if (favoritos_premium[i].nickname == nickname) {
+            return i;
+        }
+    }
+    return -1; // En caso de no encontrarlo
+}
+
+// -- Agregar canción a favoritos --
+void agregar_favorito(const string& nickname, const string& cancion) {
+    int idx = buscar_usuario_favoritos(nickname);
+    
+    if (idx == -1) {
+        // Usuario nuevo
+        if (total_usuarios_favoritos < 1000) {
+            favoritos_premium[total_usuarios_favoritos].nickname = nickname;
+            favoritos_premium[total_usuarios_favoritos].total_canciones = 0;
+            idx = total_usuarios_favoritos;
+            total_usuarios_favoritos++;
+        } else {
+            cout << "No se pueden agregar más usuarios de favoritos." << endl;
+            return;
+        }
+    }
+    
+    // Verificar si la canción ya existe
+    for (int i = 0; i < favoritos_premium[idx].total_canciones; i++) {
+        if (favoritos_premium[idx].canciones[i] == cancion) {
+            cout << "La canción ya está en tus favoritos." << endl;
+            return;
+        }
+    }
+    
+    // Agregar canción si hay espacio
+    if (favoritos_premium[idx].total_canciones < 10000) {
+        favoritos_premium[idx].canciones[favoritos_premium[idx].total_canciones] = cancion;
+        favoritos_premium[idx].total_canciones++;
+        cout << "Canción agregada a favoritos!" << endl;
+    } else {
+        cout << "Lista de favoritos llena (máximo 10,000 canciones)." << endl;
+    }
+}
+
+// Mostrar favoritos de un usuario
+void mostrar_favoritos_usuario(const string& nickname) {
+    int idx = buscar_usuario_favoritos(nickname);
+    
+    if (idx == -1 || favoritos_premium[idx].total_canciones == 0) {
+        cout << "El usuario no tiene favoritos o no existe." << endl;
+        return;
+    }
+    
+    cout << "--- Favoritos de " << nickname << " ---" << endl;
+    for (int i = 0; i < favoritos_premium[idx].total_canciones; i++) {
+        cout << (i + 1) << ". " << favoritos_premium[idx].canciones[i] << endl;
+    }
+}
+
+// -- Menú premium para usuarios premium --
 void mostrar_menu_premium() {
     cout << "\n=== MENU PREMIUM ===\n";
     cout << "[1] Reproducir una cancion\n";
@@ -199,7 +346,7 @@ void mostrar_menu_premium() {
     cout << "Ingrese una opcion: ";
 }
 
-// Menú estándar para los usuarios regulares
+// -- Menú estándar para los usuarios regulares --
 void mostrar_menu_estandar() {
     cout << "\n=== MENU ESTANDAR (REGULAR) ===\n";
     cout << "[1] Reproducir una cancion\n";
@@ -207,6 +354,8 @@ void mostrar_menu_estandar() {
     cout << "Ingrese una opcion: ";
 }
 
+
+// -- Para buscar las canciones en el directorio --
 void buscar_canciones_en_directorio(const string& nombre_cancion, bool premium = false){
     string dir;
     DIR *direccion;
@@ -214,9 +363,9 @@ void buscar_canciones_en_directorio(const string& nombre_cancion, bool premium =
     
     // Asignar la ruta según el tipo de usuario
     if (premium) {
-        dir = "C:\\Users\\dav98\\OneDrive\\Documentos\\Desafio_2\\Desafio_II\\Codigo\\build\\Desktop_Qt_6_10_0_MinGW_64_bit-Debug\\Canciones_premium";
+        dir = "C:\\Users\\dav98\\OneDrive\\Documentos\\Desafio_2\\Desafio_II\\Codigo\\Canciones_premium";
     } else {
-        dir = "C:\\Users\\dav98\\OneDrive\\Documentos\\Desafio_2\\Desafio_II\\Codigo\\build\\Desktop_Qt_6_10_0_MinGW_64_bit-Debug\\Canciones_regulares";
+        dir = "C:\\Users\\dav98\\OneDrive\\Documentos\\Desafio_2\\Desafio_II\\Codigo\\Canciones_regulares";
     }
     
     cout << "Buscando en: " << dir << "\n";

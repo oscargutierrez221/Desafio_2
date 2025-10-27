@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(Codigo main.cpp
-    clases.h clases.h)
+    clases.h clases.h
+)
 
 include(GNUInstallDirs)
 install(TARGETS Codigo

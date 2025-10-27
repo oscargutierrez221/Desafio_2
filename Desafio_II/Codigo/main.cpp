@@ -3,7 +3,6 @@
 #include <string> // Para el manejo de strings
 #include <ctime> // Para medir el tiempo de reproducción
 #include <windows.h> // Para la función Sleep
-#include <unordered_map> // Para el mapa de favoritos
 #include "clases.h"
 
 
@@ -16,7 +15,7 @@ int main() {
         cout << "\n=== MENU PRINCIPAL ===\n"; // -- Menú principal --
         cout << "[1] Registrarse\n";
         cout << "[2] Ingresar\n";
-        cout << "[3] Cambiar membresia (en desarrollo)\n";
+        cout << "[3] Cambiar membresia\n";
         cout << "[4] Salir\n";
         cout << "Ingrese una opcion: ";
         cin >> opcion;
@@ -31,8 +30,8 @@ int main() {
             cout << "Ingrese su fecha de nacimiento (DD/MM/AAAA): ";
             cin >> date;
             cout << "Ingrese su pais: "; cin >> country;
-            cout << "¿Desea ser miembro premium? (1 para si, 0 para no): ";
-            cin >> member; // -- Recibir datos de usuario para registro --
+            cout << "¿Desea ser miembro premium? (1 para si, 0 para no): "; // -- Recibir datos de usuario para registro --
+            cin >> member;
             C_member = false;
             usuario nuevo_usuario(nick, pass, date, country, member, C_member);
             nuevo_usuario.guardar_usuario(); // -- Guardar usuario usando la función --
@@ -72,7 +71,7 @@ int main() {
                     string tipo_membresia = obtenerTipoMembresia(linea_usuario);
                     cout << "Tu tipo de membresia es: " << tipo_membresia << endl;
 
-                    if (tipo_membresia == "premium") { // -- De a cuerdo a los datos del loguin, será el menú mostrado --
+                    if (tipo_membresia == "premium") { // -- De a cuerdo a los datos del loguin, mostramos el menu de estandar o premium --
                         bool menu_premium_activo = true;
                         while (menu_premium_activo) {
                             mostrar_menu_premium();
@@ -84,12 +83,12 @@ int main() {
                                 cout << "Ingrese el nombre de la cancion a reproducir: ";
                                 getline(cin, nombre_cancion);
                                 reproducir_cancion(nombre_cancion, true);
-                                cout << "\n¿Desea buscar esta cancion en un directorio? (s/n): ";
+                                cout << "\n¿Desea buscar esta cancion en el directorio? (s/n): ";
                                 char respuesta;
                                 cin >> respuesta;
                                 cin.ignore();
                                 if (respuesta == 's' || respuesta == 'S') {
-                                    buscar_canciones_en_directorio(nombre_cancion, true);
+                                    buscar_canciones_en_directorio(nombre_cancion, true); // La buscamos para imprimir los creditos y datos de la canción
                                 }
                                 break;
                             }
@@ -97,30 +96,19 @@ int main() {
                                 string nombre_cancion;
                                 cout << "Ingrese el nombre de la cancion para agregar a favoritos: ";
                                 getline(cin, nombre_cancion);
-                                favoritos_premium[nick].insert(nombre_cancion);
+                                agregar_favorito(nick, nombre_cancion);
                                 guardar_favoritos_premium();
-                                cout << "Canción agregada a favoritos!" << endl;
                                 break;
                             }
                             case 3: { // -- Ver favoritos propios --
-                                cout << "--- Tus favoritos ---" << endl;
-                                if (!favoritos_premium.count(nick) || favoritos_premium[nick].empty()) {
-                                    cout << "<Vacio>" << endl;
-                                } else {
-                                    for (const auto& cancion : favoritos_premium[nick]) cout << cancion << endl;
-                                }
+                                mostrar_favoritos_usuario(nick);
                                 break;
                             }
                             case 4: { // -- Ver los favoritos de otro usuario premium --
                                 string nombre_otro;
                                 cout << "Ingrese el nickname del usuario: ";
                                 getline(cin, nombre_otro);
-                                if (!favoritos_premium.count(nombre_otro) || favoritos_premium[nombre_otro].empty()) {
-                                    cout << "El usuario no tiene favoritos o no existe (en esta sesion)." << endl;
-                                } else {
-                                    cout << "--- Favoritos de " << nombre_otro << " ---" << endl;
-                                    for (const auto& cancion : favoritos_premium[nombre_otro]) cout << cancion << endl;
-                                }
+                                mostrar_favoritos_usuario(nombre_otro);
                                 break;
                             }
                             case 5:
@@ -149,7 +137,7 @@ int main() {
                                 cin >> respuesta;
                                 cin.ignore();
                                 if (respuesta == 's' || respuesta == 'S') {
-                                    buscar_canciones_en_directorio(nombre_cancion, false);
+                                    buscar_canciones_en_directorio(nombre_cancion, false); // Reutilizamos las funciones y metodo del menu premium --
                                 }
                                 break;
                             }
